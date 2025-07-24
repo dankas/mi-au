@@ -9,7 +9,7 @@ async function buscarDados(url) {
   return resposta.json();
 }
 
-// Função para criar e exibir a notificação de pet perdido.
+// Função para criar e exibir a notificação de pet perdido (na página e via API de Notificação).
 function exibirNotificacaoPetPerdido(pets, container) {
   // Filtra a lista de pets para encontrar apenas os que estão marcados como perdidos.
   const petsPerdidos = pets.filter((pet) => pet.perdido === 1);
@@ -19,21 +19,53 @@ function exibirNotificacaoPetPerdido(pets, container) {
     return;
   }
 
-  // Cria o elemento da notificação.
-  const notificacao = document.createElement("div");
-  notificacao.id = "lostPetNotification"; // Mantém o ID para o CSS
-  // O estilo foi movido para assets/css/components.css
-
   // Pega o nome de cada pet perdido e junta com vírgula.
   const nomesPetsPerdidos = petsPerdidos.map((pet) => pet.nome).join(", ");
+
+  // 1. Cria o elemento da notificação na página (comportamento antigo mantido).
+  const notificacao = document.createElement("div");
+  notificacao.id = "lostPetNotification";
   notificacao.innerHTML = `<strong>Atenção:</strong> Pet(s) perdido(s): ${nomesPetsPerdidos}. <strong>Clique aqui para ver o mapa e ajudar!</strong>`;
-  notificacao.style.display = "block"; // A visibilidade ainda é controlada aqui
+  notificacao.style.display = "block";
 
   // Adiciona o evento de clique para abrir o modal com o mapa.
   notificacao.addEventListener("click", mostrarMapaDePetsPerdidos);
 
   // Adiciona a notificação no início do container principal.
   container.prepend(notificacao);
+
+  // 2. Usa a Notification API do navegador para uma notificação de desktop.
+  if (!("Notification" in window)) {
+    console.log("Este navegador não suporta notificações de desktop.");
+    return;
+  }
+
+  const mostrarNotificacaoDesktop = () => {
+    const titulo = `Atenção: Pet Perdido!`;
+    const opcoes = {
+      body: `O pet ${nomesPetsPerdidos} está perdido. Clique para ver mais detalhes e ajudar na busca.`,
+      icon: 'assets/imgs/logos/logo.png' // Usando o logo como ícone
+    };
+
+    const notificacaoDesktop = new Notification(titulo, opcoes);
+
+    // Ao clicar na notificação, foca na janela e abre o mapa.
+    notificacaoDesktop.onclick = () => {
+      window.focus();
+      mostrarMapaDePetsPerdidos();
+    };
+  };
+
+  // Verifica o status da permissão e age de acordo.
+  if (Notification.permission === "granted") {
+    mostrarNotificacaoDesktop();
+  } else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        mostrarNotificacaoDesktop();
+      }
+    });
+  }
 }
 
 // Função para popular o menu de pets com o novo estilo.
@@ -141,7 +173,7 @@ function criarModalDoMapa() {
       <div id="mapModalContent">
         <span id="closeMapModal">&times;</span>
         <h2>Localização para Busca</h2>
-        <p>O mapa abaixo mostra sua localização atual para ajudar na busca pelo pet perdido.</p>
+        <p>O mapa abaixo mostra sua localização de onde eu vi o pet perdido.</p>
         <div id="map">Carregando mapa...</div>
         <div class="map-actions">
           <a id="whatsapp-share-link" href="#" target="_blank">Compartilhar Localização no WhatsApp</a>
@@ -238,7 +270,7 @@ function mostrarMapaDePetsPerdidos() {
   }
 }
 
-// Função para configurar o menu acordeão em telas pequenas.
+// acordeon.
 function configurarMenuAcordeao() {
   const menuToggle = document.querySelector(".pet-menu-toggle");
   const petMenu = document.getElementById("petMenu"); // Usando ID que já é pego
