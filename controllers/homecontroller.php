@@ -38,9 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_GET['action'] == 'exportJson' )  
     exportJson("user", json_encode($user));
     exportJson("consultas", json_encode($consultas));
     exportJson("fotos", json_encode($fotos));
-    //$gitaddMessage = system(('git add .'));
-    //$gitcommitMessage = system('git commit -m "' . $commitMessage . '"'); // This line was commented out
-    //$gitpushMessage = system('git push origin master '); // This line was commented out
+    $gitaddMessage = system(('git add .'));
+    $gitcommitMessage = system('git commit -m "' . $commitMessage . '"'); // This line was commented out
+    $gitpushMessage = system('git push origin master '); // This line was commented out
     header('Location: home.php?section=home&message=Dados exportados com sucesso ' . $commitMessage . ' ' . $gitaddMessage . ' ' . $gitcommitMessage . ' ' . $gitpushMessage . ' ');
     exit();
 
