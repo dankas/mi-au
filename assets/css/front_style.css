@@ -1,0 +1,109 @@
+        
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8f8f8;
+            display: grid;
+            grid-template-rows: auto 1fr auto; /* Header, Conteúdo, Footer */
+            min-height: 100vh; /* Garante que o body tenha pelo menos a altura da tela */
+        }
+        header {
+            background: #4a90e2;
+            padding: 0 16px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            height: 56px;
+            position: sticky;
+            position: -webkit-sticky; /* For macOS/iOS Safari */
+            top: 0;
+
+        }
+        .user-img {
+            height: 56px;
+            margin: 1px;
+            vertical-align: middle;
+
+        }
+
+        footer {
+            height: 10vh;
+            background-color: #721c1c; /* Cor de fundo para destacar */
+            text-align: center;
+            padding: 10px;
+
+        }
+        .footer-info {
+            color: #fff;
+            font-size: 0.8em;
+        }
+
+
+        nav {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 12px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.95em;
+            transition: color 0.2s;
+            padding: 8px 6px;
+            border-radius: 4px;
+        }
+        nav a:hover {
+            color: #d0e6fa;
+            background: rgba(255,255,255,0.08);
+        }
+        .pet-navimg {
+                width: 36px;
+                height: 36px;
+                margin: 1px;
+                border-radius: 50%;
+        }
+
+        /* Desktop adjustments */
+        @media (min-width: 600px) {
+            header {
+                padding: 0 24px;
+                height: 170px;
+            }
+            .logo {
+                font-size: 1.5em;
+            }
+           .logo-img {
+            height: 128px;
+            margin: 1px;
+            vertical-align: middle;
+
+            }
+            .user-img {
+                height: 48px;
+                margin: 10px;
+                vertical-align: middle;
+                
+            }
+            nav ul {
+                gap: 24px;
+            }
+            nav a {
+                font-size: 1em;
+                padding: 10px 12px;
+            }
+            .pet-navimg{
+                width: 128px;
+                height: 128px;
+                margin: 1px;
+                border-radius: 50%;
+            }   
+        }

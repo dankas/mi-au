@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Informações dos JSONs</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        .json-file { border: 1px solid #ccc; padding: 1em; margin-bottom: 1em; }
+        pre { background: #f4f4f4; padding: 1em; }
+    </style>
+</head>
+<body>
+    <h1>Informações dos arquivos JSON</h1>
+    <div id="json-container">Carregando...</div>
+    <script>
+        // Lista dos arquivos JSON na pasta export (adicione os nomes dos arquivos aqui)
+        const arquivos = [
+            'export/user.json',
+            'export/pets.json'
+            // Adicione mais arquivos conforme necessário
+        ];
+
+        const container = document.getElementById('json-container');
+        container.innerHTML = '';
+
+        arquivos.forEach(arquivo => {
+            fetch(arquivo)
+                .then(response => response.json())
+                .then(dados => {
+                    const div = document.createElement('div');
+                    div.className = 'json-file';
+                    div.innerHTML = `<h2>${arquivo}</h2><pre>${JSON.stringify(dados, null, 2)}</pre>`;
+                    container.appendChild(div);
+                })
+                .catch(() => {
+                    const div = document.createElement('div');
+                    div.className = 'json-file';
+                    div.innerHTML = `<h2>${arquivo}</h2><p>Erro ao carregar o arquivo.</p>`;
+                    container.appendChild(div);
+                });
+        });
+    </script>
+</body>
+</html>
