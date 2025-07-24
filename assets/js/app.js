@@ -22,13 +22,15 @@ function exibirNotificacaoPetPerdido(pets, container) {
   // Cria o elemento da notificação.
   const notificacao = document.createElement("div");
   notificacao.id = "lostPetNotification"; // Mantém o ID para o CSS
-  notificacao.style.cssText =
-    "background-color: #fdecdf; border-left: 6px solid #F28B0C; color: #020E26; margin: 0 20px 15px 20px; padding: 15px; display: none; border-radius: 8px;";
+  // O estilo foi movido para assets/css/components.css
 
   // Pega o nome de cada pet perdido e junta com vírgula.
   const nomesPetsPerdidos = petsPerdidos.map((pet) => pet.nome).join(", ");
-  notificacao.innerHTML = `<strong>Atenção:</strong> Pet(s) perdido(s): ${nomesPetsPerdidos}. Ajude a encontrá-los!`;
-  notificacao.style.display = "block";
+  notificacao.innerHTML = `<strong>Atenção:</strong> Pet(s) perdido(s): ${nomesPetsPerdidos}. <strong>Clique aqui para ver o mapa e ajudar!</strong>`;
+  notificacao.style.display = "block"; // A visibilidade ainda é controlada aqui
+
+  // Adiciona o evento de clique para abrir o modal com o mapa.
+  notificacao.addEventListener("click", mostrarMapaDePetsPerdidos);
 
   // Adiciona a notificação no início do container principal.
   container.prepend(notificacao);
@@ -121,6 +123,118 @@ function montarRodape(usuario, elementoRodape) {
         </div>
         <p>&copy; ${new Date().getFullYear()} MiAu. Todos os direitos reservados.</p>
     `;
+}
+
+// Variável global para guardar a instância do mapa e evitar reinicialização.
+let mapInstance = null;
+
+// Função para criar o modal do mapa, se ele ainda não existir.
+function criarModalDoMapa() {
+  // Se o modal já existe no DOM, não faz nada.
+  if (document.getElementById("mapModal")) {
+    return;
+  }
+
+  // Cria o HTML do modal.
+  const modalHtml = `
+    <div id="mapModal">
+      <div id="mapModalContent">
+        <span id="closeMapModal">&times;</span>
+        <h2>Localização para Busca</h2>
+        <p>O mapa abaixo mostra sua localização atual para ajudar na busca pelo pet perdido.</p>
+        <div id="map">Carregando mapa...</div>
+        <div class="map-actions">
+          <a id="whatsapp-share-link" href="#" target="_blank">Compartilhar Localização no WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Adiciona o HTML do modal ao final do body.
+  document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+  const modal = document.getElementById("mapModal");
+  const span = document.getElementById("closeMapModal");
+
+  // Função para fechar o modal.
+  const fecharModal = () => {
+    modal.style.display = "none";
+  };
+
+  // Eventos para fechar o modal.
+  span.onclick = fecharModal;
+  window.addEventListener("click", (event) => {
+    if (event.target == modal) {
+      fecharModal();
+    }
+  });
+}
+
+// Função para mostrar o mapa com a localização do usuário usando OpenStreetMap.
+function mostrarMapaDePetsPerdidos() {
+  // Garante que o modal exista no DOM.
+  criarModalDoMapa();
+
+  const modal = document.getElementById("mapModal");
+  const mapDiv = document.getElementById("map");
+  const whatsappLink = document.getElementById("whatsapp-share-link");
+
+  // Reseta e esconde o botão do WhatsApp ao abrir o modal
+  if (whatsappLink) {
+    whatsappLink.style.display = "none";
+    whatsappLink.href = "#";
+  }
+  modal.style.display = "block"; // Exibe o modal.
+  mapDiv.innerHTML = "Obtendo sua localização..."; // Mensagem de feedback
+
+  // Verifica se a biblioteca Leaflet foi carregada.
+  if (typeof L === 'undefined') {
+    console.error("A biblioteca Leaflet.js não foi carregada.");
+    mapDiv.innerHTML = 'Erro ao carregar o mapa. Verifique a inclusão da biblioteca Leaflet.';
+    return;
+  }
+
+  // Tenta obter a localização do usuário.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        const userLocation = [lat, lon];
+
+        // Se o mapa não foi inicializado, cria a instância.
+        if (!mapInstance) {
+          mapInstance = L.map('map');
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          }).addTo(mapInstance);
+        }
+        mapInstance.setView(userLocation, 15); // Centraliza o mapa na localização do usuário.
+        L.marker(userLocation).addTo(mapInstance).bindPopup('<b>Você está aqui!</b><br>Área de busca inicial.').openPopup();
+        setTimeout(() => mapInstance.invalidateSize(), 10); // Corrige o tamanho do mapa após ser exibido.
+
+        // Cria o link do Google Maps com as coordenadas do usuário.
+        const googleMapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
+        
+        // Cria a mensagem para o WhatsApp, incluindo o link do mapa, e a codifica para URL.
+        const whatsappMessage = encodeURIComponent(`Olá! Vi o aviso de pet perdido e quero ajudar. Minha localização para a busca é: ${googleMapsLink}`);
+        
+        // Monta o link final do WhatsApp com o número e a mensagem.
+        if (whatsappLink) {
+            whatsappLink.href = `https://wa.me/5553981323457?text=${whatsappMessage}`;
+            // Exibe o botão do WhatsApp.
+            whatsappLink.style.display = "inline-block";
+        }
+      },
+      () => { 
+        mapDiv.innerHTML = "Não foi possível obter sua localização. Por favor, habilite o serviço de localização no seu navegador e tente novamente."; 
+        if (whatsappLink) whatsappLink.style.display = "none";
+      }
+    );
+  } else { 
+    mapDiv.innerHTML = "Geolocalização não é suportada por este navegador."; 
+    if (whatsappLink) whatsappLink.style.display = "none";
+  }
 }
 
 //configuração do app.

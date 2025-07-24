@@ -4,197 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MiAu</title>
+    <!--CSS do Leaflet para o mapa -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+        <link rel="stylesheet" href="assets/css/frontcomponentes.css" />
     <style>
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Helvetica, Arial, sans-serif;
-        margin: 0;
-        background-color: #f2f2f2; /* Paleta: Fundo principal */
-        color: #020e26; /* Paleta: Texto principal */
-      }
-      .container {
-        display: grid;
-        grid-template-areas:
-          "header"
-          "main";
-        grid-template-columns: 1fr; /* Uma coluna por padrão (mobile) */
-        gap: 20px;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-      header {
-        grid-area: header;
-        position: sticky; /* Fixa o cabeçalho no topo */
-        top: 0; /* Alinha ao topo da viewport */
-        z-index: 1000; /* Garante que o cabeçalho fique acima de outros elementos */
-        padding: 20px 0;
-        background-color: #eec17d; /* Paleta: Fundo do cabeçalho */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
-        color: #f2f2f2; /* Paleta: Texto do cabeçalho */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      main {
-        grid-area: main;
-      }
-
-      .pet-menu {
-        list-style: none;
-        padding: 0;
-        display: flex;
-        gap: 2.5vw; /* Espaçamento responsivo */
-        margin: 0;
-        overflow-x: auto; /* Mantém a rolagem horizontal em telas pequenas */
-        width: 100%;
-        justify-content: center;
-        padding: 0 20px;
-        box-sizing: border-box;
-      }
-      .pet-menu li {
-        /* O estilo agora está no link (<a>) para que toda a área seja clicável */
-      }
-      /* https://developer.mozilla.org/pt-BR/docs/Web/HTML/Guides/Responsive_images */
-      .pet-menu li a {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end; /* Alinha o nome na parte inferior */
-        align-items: center;
-        /* Tornando os botões responsivos */
-        width: 22vw; /* Largura baseada na largura da viewport */
-        height: 22vw; /* Altura baseada na largura da viewport */
-        max-width: 110px; /* Tamanho máximo */
-        max-height: 110px; /* Tamanho máximo */
-        min-width: 85px; /* Tamanho mínimo */
-        min-height: 85px; /* Tamanho mínimo */
-        text-align: center;
-        /* A imagem de fundo será definida via JS */
-        background-size: cover;
-        background-position: center;
-        border: 3px solid #041840; /* Borda para destaque */
-        text-decoration: none;
-        color: #f2f2f2; /* Paleta: Texto do menu */
-        border-radius: 50%;
-        transition: border-color 0.2s ease;
-        overflow: hidden; /* Garante que a imagem não saia do círculo */
-      }
-      .pet-menu-name {
-        font-size: clamp(0.8em, 2.2vw, 0.9em); /* Fonte responsiva com limites */
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: 90%;
-        background-color: rgba(4, 24, 64, 0.8); /* Fundo para legibilidade */
-        padding: 3px 5px;
-        border-radius: 5px;
-        margin-bottom: 5px;
-      }
-      .pet-menu li a:hover {
-        /*background-color: #020E26;  Paleta: Hover mais escuro */
-        border-color: #f2790f; /* Paleta: Destaque laranja no hover */
-      }
-      /* Estilo para o item de menu selecionado */
-      .pet-menu li a.selected {
-        /* O background não é mais alterado para manter a foto */
-        border-color: #f28b0c; /* Paleta: Borda laranja mais forte para seleção */
-      }
-      .pet-details {
-        background-color: #ffffff;
-        border: 1px solid #ddd;
-        padding: 20px;
-        border-radius: 8px;
-      }
-      .pet-details h2 {
-        margin-top: 0;
-        margin-bottom: 10px;
-        color: #041840; /* Paleta: Título com azul escuro */
-      }
-      .pet-details h3 {
-        margin-top: 15px;
-        margin-bottom: 5px;
-        color: #041840; /* Paleta: Subtítulo com azul escuro */
-        border-bottom: 2px solid #f28b0c; /* Paleta: Destaque laranja */
-        padding-bottom: 4px;
-      }
-      .pet-details ul {
-        list-style: disc;
-        padding-left: 20px;
-      }
-      .pet-details img {
-        max-width: 100%;
-        height: auto;
-        margin-top: 10px;
-        border-radius: 5px;
-      }
-      .pet-details strong {
-        color: #f2790f; /* Paleta: Destaque laranja para ênfase */
-      }
-      .no-content {
-        text-align: center;
-        color: #777;
-        padding: 20px;
-      }
-      .consultation-img {
-        max-width: 80px;
-        margin-right: 10px;
-        vertical-align: middle;
-      }
-      .pet-photos-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        gap: 10px;
-        align-content: start; /* Alinha as fotos no topo */
-      }
-      .pet-photos-grid img {
-        width: 100%;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 8px;
-      }
-      .header-logo {
-        /* Tornando o logo responsivo */
-        height: 12vw; /* Altura baseada na largura da viewport */
-        min-height: 45px; /* Altura mínima */
-        max-height: 70px; /* Altura máxima */
-        margin-bottom: 20px;
-      }
-
-      /* Media Query para telas maiores (tablets e desktops) */
-      @media (min-width: 768px) {
-        .pet-details {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          grid-template-areas:
-            "info photos"
-            "consultas consultas";
-          gap: 25px;
-        }
-
-        .pet-info {
-          grid-area: info;
-        }
-
-        .pet-photos-grid {
-          grid-area: photos;
-        }
-
-        .pet-consultations {
-          grid-area: consultas;
-        }
-      }
-
-      footer {
-        background-color: #041840; /* Paleta: Azul escuro consistente */
-        color: #f2f2f2;
-        text-align: center;
-        padding: 25px 20px;
-        margin-top: 30px; /* Espaço entre o conteúdo principal e o rodapé */
-      }
-      .footer-user-info p {
-        margin: 5px 0;
-        font-size: 0.9em;
-        color: #eec17d; /* Paleta: Amarelo para destaque */
-      }
     </style>
   </head>
   <body>
@@ -212,6 +26,9 @@
     <footer id="page-footer">
       
     </footer>
+    <!-- Leaflet para o mapa (antes do seu app.js) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="assets/js/app.js"></script>
   </body>
 </html>
