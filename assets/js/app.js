@@ -38,7 +38,7 @@ function exibirNotificacaoPetPerdido(pets, container) {
 
 // Função para popular o menu de pets com o novo estilo.
 function montarMenuPets(pets, elementoMenu) {
-  let menuHtml = "<li> <img class=\"header-logo\" src=\"assets/imgs/logos/logo.png\" alt=\"MiAu Logo\" /> </li>";
+  let menuHtml = " ";
   // Usando um laço 'for...of' para construir o HTML, uma abordagem mais explícita.
   for (const pet of pets) {
     menuHtml += `
@@ -238,6 +238,20 @@ function mostrarMapaDePetsPerdidos() {
   }
 }
 
+// Função para configurar o menu acordeão em telas pequenas.
+function configurarMenuAcordeao() {
+  const menuToggle = document.querySelector(".pet-menu-toggle");
+  const petMenu = document.getElementById("petMenu"); // Usando ID que já é pego
+
+  if (menuToggle && petMenu) {
+    menuToggle.addEventListener("click", () => {
+      const isOpened = petMenu.classList.toggle("is-open");
+      // Altera o texto do botão para melhor UX (experiência do usuário).
+      menuToggle.textContent = isOpened ? "Fechar Pets" : "Meus Pets";
+    });
+  }
+}
+
 //configuração do app.
 async function iniciarAplicacao() {
   // Pega os elementos da página que vamos manipular.
@@ -264,6 +278,9 @@ async function iniciarAplicacao() {
     montarMenuPets(pets, elementoMenuPets);
     montarRodape(usuarioPrincipal, elementoRodape);
     exibirNotificacaoPetPerdido(pets, elementoPrincipal);
+
+    // Configura o comportamento de acordeão para o menu de pets.
+    configurarMenuAcordeao();
 
     // 
     const aoMudarRota = () => {

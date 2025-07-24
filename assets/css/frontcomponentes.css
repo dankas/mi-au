@@ -1,202 +1,190 @@
-  body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Helvetica, Arial, sans-serif;
-        margin: 0;
-        background-color: #f2f2f2; /* Paleta: Fundo principal */
-        color: #020e26; /* Paleta: Texto principal */
-      }
-      .container {
-        display: grid;
-        grid-template-areas:
-          "header"
-          "main";
-        grid-template-columns: 1fr; /* Uma coluna por padrão (mobile) */
-        gap: 20px;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-      header {
-        grid-area: header;
-        position: sticky; /* Fixa no topo */
-        top: 0; /* Alinha ao topo da viewport */
-        z-index: 1000; /*https://pt.stackoverflow.com/questions/73746/conte%C3%BAdo-passa-acima-do-header-ao-rolar-p%C3%A1gina corrige o vazamento*/
-        padding: 20px 0;
-        background-color: #eec17d; 
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
-        color: #f2f2f2; 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      main {
-        grid-area: main;
-      }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  margin: 0;
+  background-color: #f2f2f2;
+  color: #020e26;
+}
+.container {
+  display: grid;
+  grid-template-areas:
+    "header"
+    "main";
+  grid-template-columns: 1fr;
+  gap: 20px;
+  max-width: 1200px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+header {
+  grid-area: header;
+  position: sticky;
+  top: 0;
+  z-index: 1000; /*https://pt.stackoverflow.com/questions/73746/conte%C3%BAdo-passa-acima-do-header-ao-rolar-p%C3%A1gina corrige o vazamento*/
+  padding: 20px 0;
+  background-color: #eec17d;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+main {
+  grid-area: main;
+}
 
-      .pet-menu {
-        list-style: none;
-        padding: 0;
-        display: flex;
-        gap: 2.5vw; /* Espaçamento responsivo */
-        margin: 0;
-        overflow-x: auto; /* Mantém a rolagem horizontal em telas pequenas */
-        width: 100%;
-        justify-content: center;
-        padding: 0 20px;
-        box-sizing: border-box;
-      }
-      .pet-menu li {
-        /* O estilo agora está no link (<a>) para que toda a área seja clicável */
-      }
-      /* https://developer.mozilla.org/pt-BR/docs/Web/HTML/Guides/Responsive_images */
-      .pet-menu li a {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end; /* Alinha o nome na parte inferior */
-        align-items: center;
-        /* Tornando os botões responsivos */
-        width: 20vw; /* Largura baseada na largura da viewport */
-        height: 20vw; /* Altura baseada na largura da viewport */
-        max-width: 110px; /* Tamanho máximo */
-        max-height: 110px; /* Tamanho máximo */
-        min-width: 48px; /* Tamanho mínimo */
-        min-height: 48px; /* Tamanho mínimo */
-        text-align: center;
-        /* A imagem de fundo será definida via JS */
-        background-size: cover;
-        background-position: center;
-        border: 3px solid #041840; /* Borda para destaque */
-        text-decoration: none;
-        color: #f2f2f2; /* Paleta: Texto do menu */
-        border-radius: 50%;
-        transition: border-color 0.2s ease;
-        overflow: hidden; /* Garante que a imagem não saia do círculo */
-      }
-      .pet-menu-name {
-        font-size: clamp(0.8em, 2.2vw, 0.9em); /* Fonte responsiva com limites */
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: 90%;
-        background-color: rgba(4, 24, 64, 0.8); /* Fundo para legibilidade */
-        padding: 3px 5px;
-        border-radius: 5px;
-        margin-bottom: 5px;
-      }
-      .pet-menu li a:hover {
-        /*background-color: #020E26;  Paleta: Hover mais escuro */
-        border-color: #f2790f; /* Paleta: Destaque laranja no hover */
-      }
-      /* Estilo para o item de menu selecionado */
-      .pet-menu li a.selected {
-        /* O background não é mais alterado para manter a foto */
-        border-color: #f28b0c; /* Paleta: Borda laranja mais forte para seleção */
-      }
-      .pet-details {
-        background-color: #ffffff;
-        border: 1px solid #ddd;
-        padding: 20px;
-        border-radius: 8px;
-      }
-      .pet-details h2 {
-        margin-top: 0;
-        margin-bottom: 10px;
-        color: #041840; /* Paleta: Título com azul escuro */
-      }
-      .pet-details h3 {
-        margin-top: 15px;
-        margin-bottom: 5px;
-        color: #041840; /* Paleta: Subtítulo com azul escuro */
-        border-bottom: 2px solid #f28b0c; /* Paleta: Destaque laranja */
-        padding-bottom: 4px;
-      }
-      .pet-details ul {
-        list-style: disc;
-        padding-left: 20px;
-      }
-      .pet-details img {
-        max-width: 100%;
-        height: auto;
-        margin-top: 10px;
-        border-radius: 5px;
-      }
-      .pet-details strong {
-        color: #f2790f; /* Paleta: Destaque laranja para ênfase */
-      }
-      .no-content {
-        text-align: center;
-        color: #777;
-        padding: 20px;
-      }
-      .consultation-img {
-        max-width: 80px;
-        margin-right: 10px;
-        vertical-align: middle;
-      }
-      .pet-photos-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        gap: 10px;
-        align-content: start; /* Alinha as fotos no topo */
-      }
-      .pet-photos-grid img {
-        width: 100%;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 8px;
-      }
-      .header-logo {
-        /* Tornando o logo responsivo */
-        width:22vw; /* Largura baseada na largura da viewport */
-        height:22vw; /* Altura baseada na largura da viewport */
-        max-width: 150px; /* Tamanho máximo */
-        max-height: 150px; /* Tamanho máximo */
-        min-width: 85px; /* Tamanho mínimo */
-        min-height: 85px; /* Tamanho mínimo */
-        border-radius: 50%;
-        border-color:#041840;
-        border-style: solid;
-        border-width: 3px;
+.pet-menu {
+  list-style: none;
+  padding: 10px;
+  display: flex;
+  gap: 2.5vw;
+  margin: 0;
+  overflow-x: auto;
+  width: 100%;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.pet-menu li {
+}
+.pet-menu li a {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 20vw;
+  height: 20vw;
+  max-width: 110px;
+  max-height: 110px;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  border: 3px solid #041840;
+  text-decoration: none;
+  color: #f2f2f2;
+  border-radius: 50%;
+  transition: border-color 0.2s ease;
+  overflow: hidden;
+}
+.pet-menu-name {
+  font-size: clamp(0.8em, 2.2vw, 0.9em);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 90%;
+  background-color: rgba(4, 24, 64, 0.8);
+  padding: 3px 5px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+.pet-menu li a:hover {
+  border-color: #f2790f;
+}
+.pet-menu li a.selected {
+  border-color: #f28b0c;
+}
+.pet-details {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 10px;
+}
+.pet-details h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #041840;
+}
+.pet-details h3 {
+  margin-top: 15px;
+  margin-bottom: 5px;
+  color: #041840;
+  border-bottom: 2px solid #f28b0c;
+  padding-bottom: 4px;
+}
+.pet-details ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+.pet-details img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+.pet-details strong {
+  color: #f2790f;
+}
+.no-content {
+  text-align: center;
+  color: #777;
+  padding: 20px;
+}
+.consultation-img {
+  max-width: 80px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.pet-photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  align-content: start;
+}
+.pet-photos-grid img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.header-logo {
+  width: 22vw;
+  height: 22vw;
+  max-width: 150px;
+  max-height: 150px;
+  min-width: 85px;
+  min-height: 85px;
+  border-radius: 50%;
+  border-color: #041840;
+  border-style: solid;
+  border-width: 3px;
+}
 
-      }
+@media (min-width: 768px) {
+  .pet-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "info photos"
+      "consultas consultas";
+    gap: 25px;
+  }
 
-      /* Media Query para telas maiores (tablets e desktops) */
-      @media (min-width: 768px) {
-        .pet-details {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          grid-template-areas:
-            "info photos"
-            "consultas consultas";
-          gap: 25px;
-        }
+  .pet-info {
+    grid-area: info;
+  }
 
-        .pet-info {
-          grid-area: info;
-        }
+  .pet-photos-grid {
+    grid-area: photos;
+  }
 
-        .pet-photos-grid {
-          grid-area: photos;
-        }
+  .pet-consultations {
+    grid-area: consultas;
+  }
+}
 
-        .pet-consultations {
-          grid-area: consultas;
-        }
-      }
-
-      footer {
-        background-color: #041840; /* Paleta: Azul escuro consistente */
-        color: #f2f2f2;
-        text-align: center;
-        padding: 25px 20px;
-        margin-top: 30px; /* Espaço entre o conteúdo principal e o rodapé */
-      }
-      .footer-user-info p {
-        margin: 5px 0;
-        font-size: 0.9em;
-        color: #eec17d; /* Paleta: Amarelo para destaque */
-      }
-
-
+footer {
+  background-color: #041840;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 25px 20px;
+  margin-top: 30px;
+}
+.footer-user-info p {
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #eec17d;
+}
 
 #lostPetNotification {
   background-color: #fdecdf;
@@ -206,12 +194,10 @@
   padding: 15px;
   border-radius: 8px;
   cursor: pointer;
-  /* A visibilidade é controlada via JavaScript (display: block) */
 }
 
-/* Estilos para o Modal do Mapa */
 #mapModal {
-  display: none; /* Inicia oculto, JS controla a exibição */
+  display: none;
   position: fixed;
   z-index: 1001;
   left: 0;
@@ -253,15 +239,12 @@
   text-align: center;
 }
 #map {
-  /*força mapa tamanho de height de 400 */
   height: 400px;
   width: 100%;
 }
 
-
-
 #whatsapp-share-link {
-  display: none; /* Inicia oculto, JS controla a exibição */
+  display: none;
   background-color: #25d366;
   color: white;
   padding: 12px 25px;
@@ -270,4 +253,99 @@
   font-weight: bold;
   font-size: 1em;
   transition: background-color 0.3s;
+}
+
+.pet-menu-toggle {
+  display: none;
+  background-color: #041840;
+  color: #f2f2f2;
+  border: 2px solid #f2f2f2;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+@media (max-width: 699px) {
+  .pet-menu-toggle {
+    display: block;
+  }
+
+  .pet-menu {
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    width: 100%;
+    gap: 10px;
+    transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out,
+      margin-top 0.4s ease-in-out;
+    overflow-x: hidden;
+    padding-left: 0;
+    padding-right: 0;
+    justify-content: flex-start;
+  }
+
+  .pet-menu.is-open {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: 10px;
+  }
+
+  .pet-menu li {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .pet-menu li a {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    background-color: #fefefe;
+    box-sizing: border-box;
+    border: 2px solid #041840;
+    text-align: center;
+    color: #041840;
+    font-weight: bold;
+    background-image: none !important;
+  }
+
+  .pet-menu li a::before {
+    display: none;
+  }
+
+  .pet-menu-name {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
+    font-weight: inherit;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    width: auto;
+    border-radius: 0;
+  }
+
+  .pet-menu li a:hover {
+    border-color: #f2790f;
+    background-color: #fdecdf;
+  }
+
+  .pet-menu li a.selected {
+    border-color: #f28b0c;
+    background-color: #fdecdf;
+    box-shadow: 0 0 8px rgba(242, 139, 12, 0.5);
+  }
 }
