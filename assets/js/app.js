@@ -38,7 +38,7 @@ function exibirNotificacaoPetPerdido(pets, container) {
 
 // Função para popular o menu de pets com o novo estilo.
 function montarMenuPets(pets, elementoMenu) {
-  let menuHtml = "";
+  let menuHtml = "<li> <img class=\"header-logo\" src=\"assets/imgs/logos/logo.png\" alt=\"MiAu Logo\" /> </li>";
   // Usando um laço 'for...of' para construir o HTML, uma abordagem mais explícita.
   for (const pet of pets) {
     menuHtml += `
@@ -211,8 +211,9 @@ function mostrarMapaDePetsPerdidos() {
         }
         mapInstance.setView(userLocation, 15); // Centraliza o mapa na localização do usuário.
         L.marker(userLocation).addTo(mapInstance).bindPopup('<b>Você está aqui!</b><br>Área de busca inicial.').openPopup();
-        setTimeout(() => mapInstance.invalidateSize(), 10); // Corrige o tamanho do mapa após ser exibido.
 
+
+        setTimeout(() => mapInstance.invalidateSize(), 150);
         // Cria o link do Google Maps com as coordenadas do usuário.
         const googleMapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
         

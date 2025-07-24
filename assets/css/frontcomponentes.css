@@ -54,12 +54,12 @@
         justify-content: flex-end; /* Alinha o nome na parte inferior */
         align-items: center;
         /* Tornando os botões responsivos */
-        width: 22vw; /* Largura baseada na largura da viewport */
-        height: 22vw; /* Altura baseada na largura da viewport */
+        width: 20vw; /* Largura baseada na largura da viewport */
+        height: 20vw; /* Altura baseada na largura da viewport */
         max-width: 110px; /* Tamanho máximo */
         max-height: 110px; /* Tamanho máximo */
-        min-width: 85px; /* Tamanho mínimo */
-        min-height: 85px; /* Tamanho mínimo */
+        min-width: 48px; /* Tamanho mínimo */
+        min-height: 48px; /* Tamanho mínimo */
         text-align: center;
         /* A imagem de fundo será definida via JS */
         background-size: cover;
@@ -146,10 +146,17 @@
       }
       .header-logo {
         /* Tornando o logo responsivo */
-        height: 12vw; /* Altura baseada na largura da viewport */
-        min-height: 45px; /* Altura mínima */
-        max-height: 70px; /* Altura máxima */
-        margin-bottom: 20px;
+        width:22vw; /* Largura baseada na largura da viewport */
+        height:22vw; /* Altura baseada na largura da viewport */
+        max-width: 150px; /* Tamanho máximo */
+        max-height: 150px; /* Tamanho máximo */
+        min-width: 85px; /* Tamanho mínimo */
+        min-height: 85px; /* Tamanho mínimo */
+        border-radius: 50%;
+        border-color:#041840;
+        border-style: solid;
+        border-width: 3px;
+
       }
 
       /* Media Query para telas maiores (tablets e desktops) */
@@ -190,7 +197,7 @@
       }
 
 
-/* Estilos para a notificação de pet perdido */
+
 #lostPetNotification {
   background-color: #fdecdf;
   border-left: 6px solid #f28b0c;
@@ -245,6 +252,13 @@
   margin-top: 20px;
   text-align: center;
 }
+#map {
+  /*força mapa tamanho de height de 400 */
+  height: 400px;
+  width: 100%;
+}
+
+
 
 #whatsapp-share-link {
   display: none; /* Inicia oculto, JS controla a exibição */
