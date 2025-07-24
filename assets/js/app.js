@@ -22,19 +22,19 @@ function exibirNotificacaoPetPerdido(pets, container) {
   // Pega o nome de cada pet perdido e junta com vírgula.
   const nomesPetsPerdidos = petsPerdidos.map((pet) => pet.nome).join(", ");
 
-  // 1. Cria o elemento da notificação na página (comportamento antigo mantido).
+  // Cria o elemento da notificação na página (comportamento antigo mantido).
   const notificacao = document.createElement("div");
   notificacao.id = "lostPetNotification";
   notificacao.innerHTML = `<strong>Atenção:</strong> Pet(s) perdido(s): ${nomesPetsPerdidos}. <strong>Clique aqui para ver o mapa e ajudar!</strong>`;
   notificacao.style.display = "block";
 
-  // Adiciona o evento de clique para abrir o modal com o mapa.
+  // abrir  o mapa.
   notificacao.addEventListener("click", mostrarMapaDePetsPerdidos);
 
-  // Adiciona a notificação no início do container principal.
+  // Adicioa a notificação no início do container principal.
   container.prepend(notificacao);
 
-  // 2. Usa a Notification API do navegador para uma notificação de desktop.
+  // Usa a Notification API do navegador para uma notificação de desktop.
   if (!("Notification" in window)) {
     console.log("Este navegador não suporta notificações de desktop.");
     return;
@@ -44,7 +44,7 @@ function exibirNotificacaoPetPerdido(pets, container) {
     const titulo = `Atenção: Pet Perdido!`;
     const opcoes = {
       body: `O pet ${nomesPetsPerdidos} está perdido. Clique para ver mais detalhes e ajudar na busca.`,
-      icon: 'assets/imgs/logos/logo.png' // Usando o logo como ícone
+      icon: 'assets/imgs/logos/logo.png' 
     };
 
     const notificacaoDesktop = new Notification(titulo, opcoes);
@@ -162,7 +162,7 @@ let mapInstance = null;
 
 // Função para criar o modal do mapa, se ele ainda não existir.
 function criarModalDoMapa() {
-  // Se o modal já existe no DOM, não faz nada.
+ 
   if (document.getElementById("mapModal")) {
     return;
   }

@@ -59,7 +59,7 @@ main {
   text-align: center;
   background-size: cover;
   background-position: center;
-  border: 3px solid #041840;
+  border: 3px solid #485c85;
   text-decoration: none;
   color: #f2f2f2;
   border-radius: 50%;
@@ -93,12 +93,12 @@ main {
 .pet-details h2 {
   margin-top: 0;
   margin-bottom: 10px;
-  color: #041840;
+  color: #485c85;
 }
 .pet-details h3 {
   margin-top: 15px;
   margin-bottom: 5px;
-  color: #041840;
+  color: #485c85;
   border-bottom: 2px solid #f28b0c;
   padding-bottom: 4px;
 }
@@ -145,36 +145,13 @@ main {
   min-width: 85px;
   min-height: 85px;
   border-radius: 50%;
-  border-color: #041840;
+  border-color: #485c85;
   border-style: solid;
   border-width: 3px;
 }
 
-@media (min-width: 768px) {
-  .pet-details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "info photos"
-      "consultas consultas";
-    gap: 25px;
-  }
-
-  .pet-info {
-    grid-area: info;
-  }
-
-  .pet-photos-grid {
-    grid-area: photos;
-  }
-
-  .pet-consultations {
-    grid-area: consultas;
-  }
-}
-
 footer {
-  background-color: #041840;
+  background-color: #485c85;
   color: #f2f2f2;
   text-align: center;
   padding: 25px 20px;
@@ -266,6 +243,28 @@ footer {
   font-size: 1em;
   margin-top: 10px;
   font-weight: bold;
+}
+@media (min-width: 768px) {
+  .pet-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "info photos"
+      "consultas consultas";
+    gap: 25px;
+  }
+
+  .pet-info {
+    grid-area: info;
+  }
+
+  .pet-photos-grid {
+    grid-area: photos;
+  }
+
+  .pet-consultations {
+    grid-area: consultas;
+  }
 }
 
 @media (max-width: 699px) {
